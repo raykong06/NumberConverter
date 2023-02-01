@@ -1,7 +1,9 @@
 public class NumberConverter {
-    int[] digits;
-    int base;
-    String[] baseReference;
+    private int[] digits;
+    private String[] strDigits;
+    private int base;
+    private String[] baseReference;
+    private final String digitMap = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+/";
 
     public NumberConverter(int number, int base) {
         String numberAsString = Integer.toString(number);
@@ -10,6 +12,22 @@ public class NumberConverter {
             String single = numberAsString.substring(i,i+1);
             int d = Integer.parseInt(single);
             digits[i] = d;
+        }
+        this.base = base;
+
+        baseReference = new String[64];
+        for (int i = 0; i < 64; i++)
+        {
+            String single = digitMap.substring(i, i + 1);
+            baseReference[i] = single;
+        }
+    }
+
+    public NumberConverter(String number, int base) {
+        strDigits = new String[number.length()];
+        for (int i = 0; i < number.length(); i++) {
+            String single = number.substring(i,i+1);
+            strDigits[i] = single;
         }
         this.base = base;
 
@@ -24,8 +42,17 @@ public class NumberConverter {
 
     public String displayOriginalNumber() {
         String o = "";
-        for (int i = 0; i < digits.length; i++) {
-            o = o + digits[i];
+        if (digits != null)
+        {
+            for (int i = 0; i < digits.length; i++) {
+                o = o + digits[i];
+            }
+        }
+        else
+        {
+            for (int i = 0; i < strDigits.length; i++) {
+                o = o + strDigits[i];
+            }
         }
         //o = o + "\n";
         return o;
@@ -33,6 +60,10 @@ public class NumberConverter {
 
     public int[] getDigits() {
         return digits;
+    }
+
+    public String[] getStrDigits() {
+        return strDigits;
     }
 
     public String[] getBaseReference(){
@@ -46,7 +77,7 @@ public class NumberConverter {
         for (int i = 0; i < strNum.length(); i++)
         {
             String place = strNum.substring(i, i + 1);
-            int converted = Integer.parseInt(place);
+            int converted = digitMap.indexOf(place);
             decimal += converted * (int) Math.pow(base, power);
             power--;
         }

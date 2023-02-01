@@ -128,30 +128,53 @@ class ConverterRunner {
                 number = s.nextLine();
             }
         }
-        
-        int n = Integer.parseInt(number);
+
+        int n = 0;
+        if (binary || octal || decimal)
+        {
+            n = Integer.parseInt(number);
+        }
 
         s.close();
 
 
-        NumberConverter nc = new NumberConverter(n, base);
-        int[] digits = nc.getDigits();
-        System.out.println("\n\nDigit array: " + Arrays.toString(digits));
+        NumberConverter nc;
+        if (binary || octal || decimal)
+        {
+            nc = new NumberConverter(n, base);
+            int[] digits = nc.getDigits();
+            System.out.println("\n\nDigit array: " + Arrays.toString(digits));
+        }
+        else
+        {
+            nc = new NumberConverter(number, base);
+            String[] strDigits = nc.getStrDigits();
+            System.out.println("\n\nDigit array: " + Arrays.toString(strDigits));
+        }
 
-        if (base == 10)
+        if (hex)
         {
             System.out.println("Binary Number: " + nc.intArrtoNumber(nc.convertToBinary()));
             System.out.println("Octal Number: " + nc.intArrtoNumber(nc.convertToOctal()));
+            System.out.println("Decimal Number: " + nc.intArrtoNumber(nc.convertToDecimal()));
         }
-        else if (base == 8)
+        else if (decimal)
+        {
+            System.out.println("Binary Number: " + nc.intArrtoNumber(nc.convertToBinary()));
+            System.out.println("Octal Number: " + nc.intArrtoNumber(nc.convertToOctal()));
+            System.out.println("Hexadecimal Number: " + nc.strArrtoString(nc.convertToHex()));
+        }
+        else if (octal)
         {
             System.out.println("Binary Number: " + nc.intArrtoNumber(nc.convertToBinary()));
             System.out.println("Decimal Number: " + nc.intArrtoNumber(nc.convertToDecimal()));
+            System.out.println("Hexadecimal Number: " + nc.strArrtoString(nc.convertToHex()));
         }
-        else if (base == 2)
+        else if (binary)
         {
             System.out.println("Octal Number: " + nc.intArrtoNumber(nc.convertToOctal()));
             System.out.println("Decimal Number: " + nc.intArrtoNumber(nc.convertToDecimal()));
+            System.out.println("Hexadecimal Number: " + nc.strArrtoString(nc.convertToHex()));
         }
     }
 }
