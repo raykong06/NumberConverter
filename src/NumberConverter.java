@@ -140,7 +140,7 @@ public class NumberConverter {
 
     public String[] convertToHex()
     {
-        int remainder = Integer.parseInt(displayOriginalNumber());
+        int remainder = convertArrayToDecimal();
         int length = 1;
         if (remainder > 0)
         {
