@@ -166,6 +166,34 @@ public class NumberConverter {
         return converted;
     }
 
+    public String[] convertToAnyBase(int baseToConvert)
+    {
+        int length = 0;
+        int remainder = Integer.parseInt(displayOriginalNumber());
+        while (remainder >= 1)
+        {
+            remainder /= baseToConvert;
+            length++;
+        }
+
+        String[] converted = new String[length];
+        int quotient = convertArrayToDecimal();
+        int subtractNumber;
+
+        int i = length - 1;
+        while (quotient >= baseToConvert)
+        {
+            subtractNumber = quotient;
+            quotient = quotient / baseToConvert;
+            int substringIndex = subtractNumber - (quotient * baseToConvert);
+            converted[i] = baseReference[substringIndex] + "";
+            i--;
+        }
+        converted[i] = baseReference[quotient] + "";
+
+        return converted;
+    }
+
     public int intArrtoNumber(int[] arr)
     {
         String str = "";

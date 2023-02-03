@@ -202,5 +202,74 @@ class ConverterRunner {
                 System.out.println("Hexadecimal Number: " + nc.strArrtoString(nc.convertToHex()));
             }
         }
+        else if (option.equals("2"))
+        {
+            System.out.print("Enter any Base-10 number: ");
+            String strNum = s.nextLine();
+            while (checkChoice)
+            {
+                boolean invalid = false;
+                for (int i = 0; i < strNum.length(); i++)
+                {
+                    if (decimalValidInput.indexOf(strNum.substring(i, i + 1)) == -1)
+                    {
+                        invalid = true;
+                    }
+                }
+
+                if (invalid)
+                {
+                    System.out.print("That is an invalid input. Enter a valid Base-10 number: ");
+                    strNum = s.nextLine();
+                }
+                else
+                {
+                    checkChoice = false;
+                }
+            }
+
+            int number = Integer.parseInt(strNum);
+            checkChoice = true;
+
+            System.out.print("Enter a base from 1-64 to convert to: ");
+            String choice = s.nextLine();
+
+            int base = 0;
+            while (checkChoice)
+            {
+                boolean invalid = false;
+                for (int i = 0; i < choice.length(); i++)
+                {
+                    if (decimalValidInput.indexOf(choice.substring(i, i + 1)) == -1)
+                    {
+                        invalid = true;
+                    }
+                }
+
+                if (!invalid)
+                {
+                    base = Integer.parseInt(choice);
+                    if (base < 1 || base > 64)
+                    {
+                        invalid = true;
+                    }
+                }
+                if (invalid)
+                {
+                    System.out.print("That is an invalid input. Enter a base from 1-64 to convert to: ");
+                    choice = s.nextLine();
+                }
+
+                if (!invalid)
+                {
+                    checkChoice = false;
+                }
+            }
+
+            NumberConverter nc = new NumberConverter(number, 10);
+            int[] digits = nc.getDigits();
+            System.out.println("\n\nDigit array: " + Arrays.toString(digits));
+            System.out.println("Base-" + base + " Number: " + nc.strArrtoString(nc.convertToAnyBase(base)));
+        }
     }
 }
