@@ -140,8 +140,12 @@ public class NumberConverter {
 
     public String[] convertToHex()
     {
-        int length = 0;
         int remainder = Integer.parseInt(displayOriginalNumber());
+        int length = 1;
+        if (remainder > 0)
+        {
+            length = 0;
+        }
         while (remainder >= 1)
         {
             remainder /= 16;
@@ -168,28 +172,52 @@ public class NumberConverter {
 
     public String[] convertToAnyBase(int baseToConvert)
     {
-        int length = 0;
-        int remainder = Integer.parseInt(displayOriginalNumber());
-        while (remainder >= 1)
+        String[] converted;
+        if (baseToConvert == 1)
         {
-            remainder /= baseToConvert;
-            length++;
+            int num = Integer.parseInt(displayOriginalNumber());
+            if (num == 0)
+            {
+                converted = new String[]{"0"};
+            }
+            else
+            {
+                converted = new String[num];
+            }
+            for (int i = 0; i < num; i++)
+            {
+                converted[i] = "1";
+            }
         }
-
-        String[] converted = new String[length];
-        int quotient = convertArrayToDecimal();
-        int subtractNumber;
-
-        int i = length - 1;
-        while (quotient >= baseToConvert)
+        else
         {
-            subtractNumber = quotient;
-            quotient = quotient / baseToConvert;
-            int substringIndex = subtractNumber - (quotient * baseToConvert);
-            converted[i] = baseReference[substringIndex] + "";
-            i--;
+            int remainder = Integer.parseInt(displayOriginalNumber());
+            int length = 1;
+            if (remainder > 0)
+            {
+                length = 0;
+            }
+            while (remainder >= 1)
+            {
+                remainder /= baseToConvert;
+                length++;
+            }
+
+            converted = new String[length];
+            int quotient = convertArrayToDecimal();
+            int subtractNumber;
+
+            int i = length - 1;
+            while (quotient >= baseToConvert)
+            {
+                subtractNumber = quotient;
+                quotient = quotient / baseToConvert;
+                int substringIndex = subtractNumber - (quotient * baseToConvert);
+                converted[i] = baseReference[substringIndex] + "";
+                i--;
+            }
+            converted[i] = baseReference[quotient] + "";
         }
-        converted[i] = baseReference[quotient] + "";
 
         return converted;
     }
